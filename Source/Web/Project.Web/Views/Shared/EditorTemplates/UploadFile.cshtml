@@ -1,0 +1,8 @@
+﻿@model HttpPostedFileBase
+<p class="fileUpload btn btn-default">
+    <span>Select File</span>
+    @Html.UploadFile(model => model, new { @class = "upload", id = "upload-file" })
+</p>
+<div>
+    @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
+</div>

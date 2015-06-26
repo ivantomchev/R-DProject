@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<hr />
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <div class="form-group form-inline">
+                        <label for="search">Search</label>
+                        <input type="text" id="search" class="form-control" name="search" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div id="upload-form">
+                        @Html.Action("UploadFile", "FileSystem")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div id="FileTree"></div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/activate-jstree")
+}
