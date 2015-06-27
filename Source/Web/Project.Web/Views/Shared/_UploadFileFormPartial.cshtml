@@ -3,19 +3,16 @@
 @using (Html.BeginForm("UploadFile", "FileSystem", new { area = string.Empty }, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    <div class="form-group">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 @Html.HiddenFor(model => model.Directory)
                 @Html.ValidationMessageFor(model => model.Directory, "", new { @class = "text-danger" })
                 @Html.EditorFor(model => model.FileToUpload)
             </div>
-            <div class="col-md-6">
-                @Html.Submit(new { value = "Save File", @class = "btn btn-success",id="btn-save" })
+            <div class="col-md-2">
+                @Html.Submit(new { value = "Upload File", @class = "btn btn-success btn-sm",id="btn-save" })
             </div>
         </div>
-
-    </div>
 }
 
 @Scripts.Render("~/bundles/activate-upload-form")

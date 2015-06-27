@@ -1,0 +1,42 @@
+﻿@model Project.Web.ViewModels.FileSystem.FileUploadFormInputModel
+
+@{
+    ViewBag.Title = "File Manager";
+}
+<div class="row">
+    <h2>@ViewBag.Title</h2>
+</div>
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-4 form-inline input-group-sm">
+                    <label for="search">Search</label>
+                    <input type="text" id="search" class="form-control" />
+                </div>
+                <div class="col-md-4 col-sm-8 col-xs-8">
+                    <button type="button" id="rename-btn" class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-pencil"></i> Rename</button>
+                    <button type="button" id="delete-btn" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove"></i> Delete</button>
+                </div>
+                <div class="col-md-4 col-sm-8 col-xs-8">
+                    <div id="update-target">
+                        @Html.Partial("_UploadFileFormPartial", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div id="file-tree">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/activate-file-tree")
+}
+
+
+

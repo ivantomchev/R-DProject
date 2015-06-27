@@ -3,17 +3,94 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Web;
     using System.Web.Mvc;
 
     using Project.Common;
+    using Project.Common.Extensions;
     using Project.Web.ViewModels.FileSystem;
 
     public class FileSystemController : Controller
     {
         private const string MainDirectory = GlobalConstants.MainDirectory;
 
+        [HttpPost]
+        public ActionResult RenameFolder(string directory, string newName, string oldName)
+        {
+            if (oldName == newName)
+            {
+                return this.GridOperationAjaxRefreshData(true, null);
+            }
+
+            var path = directory.ReplaceLastOccurrence(oldName, newName);
+
+            try
+            {
+                //TO DO
+                //Check if folder with that name already exists
+                Directory.Move(directory, path);
+            }
+            catch (Exception ex)
+            {
+                return this.GridOperationAjaxRefreshData(false, ex.Message);
+            }
+
+            return this.GridOperationAjaxRefreshData(true, null);
+        }
+
+        [HttpPost]
+        public ActionResult RenameFile(string directory, string newName, string oldName)
+        {
+            if (oldName == newName)
+            {
+                return this.GridOperationAjaxRefreshData(true, null);
+            }
+
+            var path = directory.ReplaceLastOccurrence(oldName, newName);
+
+            try
+            {
+                System.IO.File.Move(directory, path);
+            }
+            catch (Exception ex)
+            {
+                return this.GridOperationAjaxRefreshData(false, ex.Message);
+            }
+
+            return this.GridOperationAjaxRefreshData(true, null);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFolder(string path)
+        {
+            try
+            {
+                Directory.Delete(path, true);
+            }
+            catch (Exception ex)
+            {
+                return this.GridOperationAjaxRefreshData(false, ex.Message);
+            }
+
+            return this.GridOperationAjaxRefreshData(true, null);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFile(string path)
+        {
+            var file = new FileInfo(path);
+
+            try
+            {
+                file.Delete();
+            }
+            catch (Exception ex)
+            {
+                return this.GridOperationAjaxRefreshData(false, ex.Message);
+            }
+
+            return this.GridOperationAjaxRefreshData(true, null);
+        }
 
         [HttpGet]
         public ActionResult UploadFile()
@@ -38,46 +115,10 @@
 
                 model.FileToUpload.SaveAs(path);
 
-                return PartialView("_UploadFileFormPartial",new FileUploadFormInputModel());
+                return PartialView("_UploadFileFormPartial", new FileUploadFormInputModel());
             }
 
             return PartialView("_UploadFileFormPartial", model);
-        }
-
-        [HttpPost]
-        public ActionResult DeleteFolder(string dir)
-        {
-
-            try
-            {
-                Directory.Delete(dir, true);
-                Directory.Delete(dir);
-            }
-            catch (Exception)
-            {
-
-                return Json(false);
-            }
-
-            return Json(true);
-        }
-
-        [HttpPost]
-        public ActionResult DeleteFile(string dir)
-        {
-            var file = new FileInfo(dir);
-
-            try
-            {
-                file.Delete();
-            }
-            catch (Exception)
-            {
-
-                return Json(false);
-            }
-
-            return Json(true);
         }
 
         [HttpGet]
@@ -130,6 +171,11 @@
                 childNode.type = "file";
                 node.children.Add(childNode);
             }
+        }
+
+        private JsonResult GridOperationAjaxRefreshData(bool success, string message)
+        {
+            return Json(new { success = success, message = message });
         }
 
         private string GenerateFileName(string directory, HttpPostedFileBase file)

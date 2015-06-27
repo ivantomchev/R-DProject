@@ -27,6 +27,9 @@
 
         private static void RegisterScriptBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/activate-file-tree").Include(
+                    "~/Scripts/custom/activate-file-tree.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/activate-upload-form").Include(
                     "~/Scripts/custom/activate-upload-form.js"));
 

@@ -1,5 +1,5 @@
 ﻿@model HttpPostedFileBase
-<p class="fileUpload btn btn-default">
+<p class="fileUpload btn btn-default btn-sm">
     <span>Select File</span>
     @Html.UploadFile(model => model, new { @class = "upload", id = "upload-file" })
 </p>

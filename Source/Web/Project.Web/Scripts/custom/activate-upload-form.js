@@ -1,7 +1,7 @@
 ﻿$(function () {
 
-    var tree = $("#FileTree");
-    var uploadForm = $('#upload-form');
+    var tree = $("#file-tree");
+    var uploadForm = $('#update-target');
    
     $('form').submit(function (e) {
         e.preventDefault();
@@ -21,7 +21,7 @@
             success: function (result) {
                 uploadForm.html(result);
                 var node = tree.jstree(true).get_selected();
-                tree.jstree(true).refresh_node(node[0]);
+                tree.jstree(true).refresh(node[0]);
             }
         });
     });
