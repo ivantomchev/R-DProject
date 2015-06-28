@@ -173,9 +173,9 @@
             }
         }
 
-        private JsonResult GridOperationAjaxRefreshData(bool success, string message)
+        private JsonResult GridOperationAjaxRefreshData(bool isSuccess, string message)
         {
-            return Json(new { success = success, message = message });
+            return Json(new { success = isSuccess, message = message });
         }
 
         private string GenerateFileName(string directory, HttpPostedFileBase file)
